@@ -20,7 +20,7 @@ public class UnitedConveyors implements ModInitializer {
 		CONVEYOR_ITEM = new BlockItem(CONVEYOR_BLOCK, new Item.Settings().group(ItemGroup.TRANSPORTATION));
 		Registry.register(Registry.ITEM, ConveyorBlock.ID, CONVEYOR_ITEM);
 		CONVEYOR_ENTITY_TYPE = BlockEntityType.Builder.create(ConveyorBlockEntity::new, CONVEYOR_BLOCK).build(null);
-		Registry.register(Registry.BLOCK_ENTITY, ConveyorBlock.ID, CONVEYOR_ENTITY_TYPE);
+		Registry.register(Registry.BLOCK_ENTITY_TYPE, ConveyorBlock.ID, CONVEYOR_ENTITY_TYPE);
 	}
 
 }

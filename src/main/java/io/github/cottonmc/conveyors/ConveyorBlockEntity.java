@@ -36,12 +36,12 @@ public class ConveyorBlockEntity extends BlockEntity implements BlockEntityClien
 	}
 	
 	@Override
-	public void fromTag(CompoundTag tag) {
-		super.fromTag(tag);
-		if (tag.containsKey("Stack", TAG_TYPE_COMPOUND)) {
+	public void fromTag(BlockState blockState, CompoundTag tag) {
+		super.fromTag(blockState, tag);
+		if (tag.contains("Stack", TAG_TYPE_COMPOUND)) {
 			stack = ItemStack.fromTag(tag.getCompound("Stack"));
 		}
-		if (tag.containsKey("Delay", TAG_TYPE_NUMBER)) {
+		if (tag.contains("Delay", TAG_TYPE_NUMBER)) {
 			delay = tag.getInt("Delay");
 		}
 	}
@@ -61,7 +61,7 @@ public class ConveyorBlockEntity extends BlockEntity implements BlockEntityClien
 	
 	@Override
 	public void fromClientTag(CompoundTag tag) {
-		fromTag(tag);
+		fromTag(getCachedState(), tag);
 	}
 
 	@Override
@@ -224,9 +224,10 @@ public class ConveyorBlockEntity extends BlockEntity implements BlockEntityClien
 		//}
 	}
 	
+	@Override
 	public void sync() {
 		if (world instanceof ServerWorld) {
-			((ServerWorld)world).method_14178().markForUpdate(pos);
+			((ServerWorld)world).getChunkManager().markForUpdate(pos);
 		}
 	}
 	
@@ -236,7 +237,7 @@ public class ConveyorBlockEntity extends BlockEntity implements BlockEntityClien
 	
 	public float getProgress(float partialTicks) {
 		float adjustedDelay = delay-partialTicks; if (adjustedDelay<0) adjustedDelay = 0;
-		return adjustedDelay/(float)maxDelay;
+		return adjustedDelay/maxDelay;
 	}
 
 	@Override
